@@ -14,17 +14,21 @@ namespace RecipesApp.Domain.Logic
 
         public List<Recipe> SuggestRecipes(string ingredientName, float quantity)
         {
-            var recipes = _repository.GetRecipesByApprovedStatus(true).Result;
-            var allPossibilities = RecipesSuggesterUtils.FilterByIngredientAndQuantity(ingredientName, quantity, recipes);
-            var bestMatches = RecipesSuggesterUtils.FilterByBestMatch(ingredientName, quantity, recipes);
+            var allRecipes = _repository.GetRecipesByApprovedStatus(true);
+            var recipesWithIngredient = RecipesSuggesterUtils.FilterByIngredientAndQuantity(ingredientName, quantity, allRecipes);
+            var bestMatches = RecipesSuggesterUtils.FilterByBestMatch(ingredientName, quantity, allRecipes);
 
             if (bestMatches.Count != 0)
             {
                 return bestMatches;
             }
+            else if (recipesWithIngredient.Count != 0)
+            {
+                return recipesWithIngredient;
+            }
             else
             {
-                return allPossibilities;
+                return allRecipes;
             }
         }
     }
