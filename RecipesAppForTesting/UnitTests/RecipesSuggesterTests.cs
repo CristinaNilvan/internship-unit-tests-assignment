@@ -6,7 +6,7 @@ using RecipesApp.Domain.Models;
 
 namespace UnitTests
 {
-    public class RecipesSuggesterTests
+    public class RecipesSuggesterTests : IClassFixture<Fixture>
     {
         [Fact]
         public void SuggestRecipes_MatchesExist_ReturnsBestMatches()
